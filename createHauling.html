@@ -1,0 +1,271 @@
+<!DOCTYPE HTML>
+<html lang="es">
+    <head>
+        <meta charset="utf-8" />
+        <title>Rastreo de acarreos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="shortcut icon" type="image/png" href="assets/img/icons/favicon-16x16.png" />
+
+        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" href="css/bootstrap-utilities.min.css" />
+        <link rel="stylesheet" href="css/autoComplete.min.css">
+
+        <script src="js/jquery-3.7.0.min.js"></script>
+        <script src="js/jquery.rest.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/autoComplete.min.js"></script>
+        <script src="js/dexie.min.js"></script>
+
+        <!-- Librerías propias -->
+        <script src="js/localRepository.js"></script>
+        <script src="js/serviceProxy.js"></script>
+        <script src="js/dataLayer.js"></script>
+        <script src="js/main.js"></script>
+    </head>
+    <body>
+        <header id="main-header">
+            <div class="container">
+                <a href="menu.html"><img src="assets\img\back-arrow.png" alt="back-arrow" class="image-back" /></a>
+                <img src="assets\img\Logo-TrenMaya-Completo.jpg" alt="Tren Maya Logo" class="imageLogo" />
+                <h1 class="logo-title">Rastreo de acarreos</h1>
+            </div>
+        </header>
+        <div class="clearfix"></div>
+        <div class="container">
+            <form id="create-hauling">
+                <div class="form-group">
+                    <label for="folioBoleta" class="form-label">Folio en Boleta</label>
+                    <input class="form-control" type="number" id="folioBoleta" name="folioBoleta" autocorrect="off" autocomplete="off" placeholder="Folio de la boleta" />
+                </div> 
+                <br /> 
+                <div class="form-group">
+                    <div class="row">
+                        <label for="truckList" class="form-label">Tractocamiones</label>
+                    </div>
+                    <div class="row">
+                        <div class="autoComplete_wrapper" role="combobox" aria-owns="autoComplete_list_1" aria-haspopup="true" aria-expanded="false">
+                            <input id="truckList" type="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off" class="auto-complete-control" />
+                        </div>
+                    </div>
+                </div> 
+                <br /> 
+                <div class="form-group">
+                    <div class="row">
+                        <label for="gondolaList" class="form-label">Primera góndola</label>
+                    </div>
+                    <div class="row">
+                        <div class="autoComplete_wrapper" role="combobox" aria-owns="autoComplete_list_1" aria-haspopup="true" aria-expanded="false">
+                            <input id="gondolaList" type="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off" class="auto-complete-control" />
+                        </div>
+                    </div>
+                </div> 
+                <br /> 
+                <div class="form-group">
+                    <label for="primerTonelaje" class="form-label">Primer volumen (m<sup>3</sup>)</label>
+                    <input class="form-control" type="number" id="primerTonelaje" name="primerTonelaje" min="0" max="300" placeholder="Ingrese volumen de la primera góndola..." />
+                </div> 
+                <br />
+                <div class="form-group">
+                    <div class="row">
+                        <label for="secondGondolaList" class="form-label">Segunda góndola</label>
+                    </div>
+                    <div class="row">
+                        <div class="autoComplete_wrapper" role="combobox" aria-owns="autoComplete_list_1" aria-haspopup="true" aria-expanded="false">
+                            <input id="secondGondolaList" type="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off" class="auto-complete-control" />
+                        </div>
+                    </div>
+                </div> 
+                <br />
+                <div class="form-group">
+                    <label for="segundoTonelaje" class="form-label">Segundo volumen (m<sup>3</sup>)</label>
+                    <input class="form-control" type="number" id="segundoTonelaje" name="segundoTonelaje" min="0" max="300" placeholder="Ingrese volumen de la segunda góndola..." />
+                </div> 
+                <br />
+                <div class="form-group">
+                    <label id="possibleError" class="form-label error-label"></label>
+                </div>
+                <br />
+                <div class="form-group">
+                    <input type="button" class="btn btn-primary form-control" onclick="guardarAcarreo();" value="Guardar Acarreo">
+                </div> 
+            </form>
+        </div>
+        <script>
+            // create a manager of local database
+            let localRepository = new LocalRepository();
+
+            const truckListJS = new autoComplete({
+                name: "truckList", 
+                selector: "#truckList", 
+                placeHolder: "Buscar tractocamión...",
+                wrapper: false,
+                data: {
+                    src: async (query) => {
+                        try {
+                            // recover trucklist and fill datalist
+                            const source = await localRepository.catalogs.getTrucks();
+
+                            var data = [];
+
+                            source.forEach(element => data.push(element.qrcode));
+
+                            return data;
+                        } catch (error) {
+                            return error;
+                        }
+                    },
+                    cache: true,
+                },
+                resultItem: {
+                    highlight: true
+                },
+                events: {
+                    input: {
+                        selection: (event) => {
+                            const selection = event.detail.selection.value;
+                            truckListJS.input.value = selection;
+                        }
+                    }
+                }
+            });
+
+            const firstGondolaJS = new autoComplete({
+                name: "gondolaList", 
+                selector: "#gondolaList", 
+                placeHolder: "Buscar primera góndola...",
+                wrapper: false,
+                data: {
+                    src: async (query) => {
+                        try {
+                            // recover trucklist and fill datalist
+                            const source = await localRepository.catalogs.getGondolas();
+
+                            var data = [];
+
+                            source.forEach(element => data.push(element.qrcode));
+
+                            return data;
+                        } catch (error) {
+                            return error;
+                        }
+                    },
+                    cache: true,
+                },
+                resultItem: {
+                    highlight: true
+                },
+                events: {
+                    input: {
+                        selection: (event) => {
+                            const selection = event.detail.selection.value;
+                            firstGondolaJS.input.value = selection;
+                        }
+                    }
+                }
+            });
+
+            const secondGondolaJS = new autoComplete({
+                name: "secondGondolaList", 
+                selector: "#secondGondolaList", 
+                placeHolder: "Buscar segunda góndola...",
+                wrapper: false,
+                data: {
+                    src: async (query) => {
+                        try {
+                            // recover trucklist and fill datalist
+                            const source = await localRepository.catalogs.getGondolas();
+
+                            var data = [];
+
+                            source.forEach(element => data.push(element.qrcode));
+
+                            return data;
+                        } catch (error) {
+                            return error;
+                        }
+                    },
+                    cache: true,
+                },
+                resultItem: {
+                    highlight: true
+                },
+                events: {
+                    input: {
+                        selection: (event) => {
+                            const selection = event.detail.selection.value;
+                            secondGondolaJS.input.value = selection;
+                        }
+                    }
+                }
+            });
+
+            <!-- Validación de controles -->
+            async function validateNewHaulingInputs() {
+                var result = true;
+                var message = '';
+                var focusControl = '';
+
+                if ($('#folioBoleta').val() === '') {
+                    result = false;
+                    focusControl = 'folioBoleta';
+                    message = 'Debe seleccionar un número de boleta válido.';
+                } else {
+                    var ticketId = $('#folioBoleta').val();
+
+                    var isValidTicketId = await localRepository.haulings.validateTicketId(ticketId);
+
+                    if (!isValidTicketId) {
+                        result = false;
+                        focusControl = 'folioBoleta';
+                        message = 'El número de boleta ya existe.';
+                    }
+                }
+
+                if (result && $('#truckList').val() === '') {
+                    result = false;
+                    focusControl = 'truckList';
+                    message = 'Debe seleccionar un tractocamión válido.';
+                }
+
+                if (result && $('#gondolaList').val() === '') {
+                    result = false;
+                    focusControl = 'gondolaList';
+                    message = 'Debe seleccionar una primer góndola válida.';
+                }
+
+                if (result && $('#primerTonelaje').val() === '') {
+                    result = false;
+                    focusControl = 'primerTonelaje';
+                    message = 'Debe seleccionar un primer pesaje válido.';
+                }
+
+                $('#possibleError').text(message);
+                
+                if (message !== '') {
+                    $('#' + focusControl).focus();
+                }
+
+                return result;
+            }
+            
+            async function guardarAcarreo() {
+                if (await validateNewHaulingInputs()) {
+                    var localRepository = new LocalRepository();
+
+                    await localRepository.haulings.storeNewHauling(
+                        $('#folioBoleta').val(), 
+                        $('#truckList').val(), 
+                        $('#gondolaList').val(), 
+                        $('#primerTonelaje').val(), 
+                        $('#secondGondolaList').val(), 
+                        $('#segundoTonelaje').val());
+
+                    $("#create-hauling").get(0).reset();
+
+                    localRepository.logEntries.storeLogEntry('Acarreo guardado satisfactoriamente.');
+                }
+            }
+        </script>
+    </body>
+</html>
