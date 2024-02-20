@@ -1,7 +1,7 @@
 {
-  "name": "Rastreo de Acarreos",
+  "name": "Gestión de Acarreos",
   "short_name": "Rastreo Acarreos",
-  "description": "Aplicación interna para rastreo de acarreos.",
+  "description": "Aplicación interna para Gestión de Acarreos.",
   "background_color": "#FFF",
   "theme_color": "#FFF",
   "orientation": "portrait",
