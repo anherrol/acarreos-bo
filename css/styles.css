@@ -1,0 +1,85 @@
+/* estilos generales */
+* {
+    margin:0px;
+    padding: 0px;
+    text-decoration: none;
+    font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+body {
+    background-color: white;
+} 
+
+.clearfix {
+    clear: both;
+    float: none;
+}
+
+.container {
+    width: 85%;
+    margin: 0px auto; /* centrar bloque */
+}
+
+/* Header */
+#main-header {
+    background-color: white;
+    height: 100px;
+    line-height: 85px;
+}
+
+.image-back {
+    width: 20px;
+    float: left;
+    margin: 20px 10px 0px 0px;
+}
+
+.imageLogo {
+    width: 100px;
+    float: left;
+}
+
+.logo-title {
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 50px;
+    float: left;
+    margin-left: 10px;
+}
+
+/* FORMULARIO */
+#slider {
+    width: 85%;
+    margin: 0px auto; /* centrar bloque */
+    text-align: center;
+}
+
+.btn-menu {
+    width: 85%;
+}
+
+.sync-log {
+    text-align: left;
+}
+
+.error-label {
+    color: red;
+    font-style: italic;
+}
+
+.success-label {
+    color: lightgreen;
+    font-style: italic;
+}
+
+.auto-complete-control {
+    width: 100% !important;
+}
+
+input::placeholder {
+    color: rgba(123, 123, 123, 0.5);
+    transition: all 0.3s ease;
+}
