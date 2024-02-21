@@ -22,7 +22,7 @@
         <script src="js/localRepository.js"></script>
         <script src="js/main.js"></script>
     </head>
-    <body>
+    <body style="background-color: lightgreen;">
         <header id="main-header">
             <div class="container">
                 <img src="assets\img\Logo-TrenMaya-Completo.jpg" alt="Tren Maya Logo" class="imageLogo" />
@@ -36,38 +36,9 @@
         <div class="clearfix"></div>
         <div id="slider">
             <form>
-                <div class="form-group createHaulingDiv">
-                    <a class="btn btn-outline-primary btn-lg btn-menu" href="./createHauling.html" role="button">Crear Acarreo</a>
-                </div>
-                <br class="createHaulingDiv" />
-                <div class="form-group createHaulingDiv">
-                    <a class="btn btn-outline-primary btn-lg btn-menu" href="./dailyCreatedHaulings.html" role="button">Acarreos creados</a>
-                </div>
-                <br class="createHaulingDiv" />
-                <div class="form-group receiveHaulingDiv">
-                    <a class="btn btn-outline-primary btn-lg btn-menu" href="./receiveHauling.html" role="button">Recibir Acarreo</a>
-                </div>
-                <br class="receiveHaulingDiv" />
-                <div class="form-group receiveHaulingDiv">
-                    <a class="btn btn-outline-primary btn-lg btn-menu" href="./dailyReceivedHaulings.html" role="button">Acarreos recibidos</a>
-                </div>
-                <br class="receiveHaulingDiv" />
-                <!--
-                <div class="form-group">
-                    <a class="btn btn-outline-primary btn-lg btn-menu" href="./finalizeHauling.html" role="button">Finalizar Acarreo</a>
-                </div>
-                <br />
-                <div class="form-group">
-                    <a class="btn btn-outline-primary btn-lg btn-menu" href="./dispatchDiesel.html" role="button">Despachar Combustible</a>
-                </div>
-                <br />
-                <div class="form-group">
-                    <a class="btn btn-outline-primary btn-lg btn-menu" href="./createEvent.html" role="button">Registrar Evento</a>
-                </div>
-                <br />
-                -->
-                <div class="form-group">
-                    <a class="btn btn-outline-primary btn-lg btn-menu" href="./syncData.html" role="button">Sincronizar</a>
+                <div class="form-group ">
+                    <a class="btn btn-outline-primary btn-lg btn-menu" href="./resumen-general.html" 
+                        role="button">Resumen General</a>
                 </div>
                 <br />
                 <div class="form-group">
@@ -79,24 +50,6 @@
             // Verify Permissions
             var jobPlaceId = 0;
             var parameters = new Parameters();
-
-            parameters
-                .get("userData")
-                .then(model => { 
-                    if (model) {
-                        jobPlaceId = model.data.jobPlaceId;
-                    }
-                    
-                    if (jobPlaceId == 1) {
-                        $(".createHaulingDiv").show();
-                        $(".receiveHaulingDiv").hide();
-                    }
-
-                    if (jobPlaceId == 2) {
-                        $(".createHaulingDiv").hide();
-                        $(".receiveHaulingDiv").show();
-                    }
-                });
 
             $('#btnCloseSession').click(
                 async() => {

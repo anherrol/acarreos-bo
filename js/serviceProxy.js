@@ -55,5 +55,32 @@ if (typeof ServiceProxy === "undefined") {
 
             $.ajax(ajaxOptions);
         };
+
+        this.asyncCallGetService = async function (service, dataParameter) {
+            let result
+
+            try {
+                var ajaxOptions = {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    type: "GET",
+                    url: this.baseServiceUrl + service,
+                    cache: false
+                };
+    
+                if (dataParameter != null) {
+                    ajaxOptions['data'] = dataParameter;
+                }
+    
+                result = await $.ajax(ajaxOptions)
+
+                return result;
+
+            } catch (error) {
+                console.error(error)
+            }
+        }
     }
 }

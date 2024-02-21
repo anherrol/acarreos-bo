@@ -6,12 +6,13 @@
     font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-html, body {
-    overflow-x: hidden;
+body {
+    background-color: lightgreen;
 }
 
-body {
-    background-color: white;
+html, body {
+    overflow-x: hidden;
+    background-color: lightgreen;
 } 
 
 .clearfix {
@@ -21,12 +22,13 @@ body {
 
 .container {
     width: 85%;
+    background-color: lightgreen;
     margin: 0px auto; /* centrar bloque */
 }
 
 /* Header */
 #main-header {
-    background-color: white;
+    background-color: lightgreen;
     height: 100px;
     line-height: 85px;
 }
@@ -52,7 +54,7 @@ body {
 
 /* FORMULARIO */
 #slider {
-    width: 85%;
+    width: 300px;
     margin: 0px auto; /* centrar bloque */
     text-align: center;
 }

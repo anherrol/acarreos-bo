@@ -24,7 +24,7 @@
         <script src="js/dataLayer.js"></script>
         <script src="js/main.js"></script>
     </head>
-    <body>
+    <body style="background-color: lightgreen;">
         <header id="main-header">
             <div class="container">
                 <a href="menu.html"><img src="assets\img\back-arrow.png" alt="back-arrow" class="image-back" /></a>
@@ -35,16 +35,16 @@
         <div class="clearfix"></div>
         <br />
         <div class="container">
-            <h4>Acarreos creados</h4>
+            <h4>Resumen General</h4>
             <smart-grid id="grid"></smart-grid>
         </div>
         <script type="module" src="js/smart.grid.js"></script>
         <script>
             // create a manager of local database
-            let localRepository = new LocalRepository();
+            let reportsProxy = new ReportsProxy();
 
             GetData = async () => {
-                var result = await localRepository.haulings.getDailyCreatedHaulings();
+                var result = await reportsProxy.getGeneralSummary();
 
                 return result;
             }
@@ -72,22 +72,16 @@
                             dataSource: new window.Smart.DataAdapter({
                                 dataSource: result,
                                 dataFields: [
-                                    { name: 'ticketId', dataType: 'string' },
-                                    { name: 'truckId', dataType: 'string' },
-                                    { name: 'gondolaOneId',dataType: 'string' },
-                                    { name: 'weightOne',dataType: 'int' },
-                                    { name: 'gondolaTwoId', dataType: 'string' },
-                                    { name: 'weightTwo', dataType: 'int' }
+                                    { name: 'weekNumber', dataType: 'int' },
+                                    { name: 'weekDescription', dataType: 'string' },
+                                    { name: 'sedenaVolume',dataType: 'string' },
                                 ]
                             }),
                             columns: 
                             [
-                                { label: 'Boleta', dataField: 'ticketId', width: 60 },
-                                { label: 'Truck', dataField: 'truckId', width: 70 },
-                                { label: 'Góndola', dataField: 'gondolaOneId', width: 70 },
-                                { label: 'M3', dataField: 'weightOne', width: 35 },
-                                { label: 'Góndola', dataField: 'gondolaTwoId', width: 70}, 
-                                { label: 'M3', dataField: 'weightTwo', width: 35 }
+                                { label: 'Semana', dataField: 'weekNumber', width: 60 },
+                                { label: 'Periodo', dataField: 'weekDescription', width: 170 },
+                                { label: 'Total', dataField: 'sedenaVolume', width: 70 },
                             ]
                         };
                     }
