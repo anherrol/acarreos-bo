@@ -35,8 +35,8 @@
         <div class="clearfix"></div>
         <br />
         <div class="container">
-            <h4>Resumen General</h4>
-            <smart-grid id="grid" style="width: 400px;"></smart-grid>
+            <h4>Resumen por Transportista</h4>
+            <smart-grid id="grid"></smart-grid>
         </div>
         <script type="module" src="js/smart.grid.js"></script>
         <script>
@@ -44,7 +44,7 @@
             let reportsProxy = new ReportsProxy();
 
             GetData = async () => {
-                var result = await reportsProxy.getGeneralSummary();
+                var result = await reportsProxy.getSummaryPerCarrier();
 
                 return result;
             }
@@ -72,16 +72,21 @@
                             dataSource: new window.Smart.DataAdapter({
                                 dataSource: result,
                                 dataFields: [
-                                    { name: 'weekNumber', dataType: 'int' },
+                                    { name: 'period', dataType: 'int' },
                                     { name: 'weekDescription', dataType: 'string' },
+                                    { name: 'ticketId',dataType: 'string' },
+                                    { name: 'incomingDate', dataType: 'string' },
+                                    { name: 'plates', dataType: 'string' },
                                     { name: 'sedenaVolume',dataType: 'string' },
                                 ]
                             }),
-                            columns: 
-                            [
-                                { label: 'Semana', dataField: 'weekNumber', width: 60 },
-                                { label: 'Periodo', dataField: 'weekDescription', width: 170 },
-                                { label: 'Total', dataField: 'sedenaVolume', width: 70 },
+                            columns: [
+                                { label: 'Periodo', dataField: 'period', width: 60 },
+                                { label: 'Semana', dataField: 'weekDescription', width: 170 },
+                                { label: 'Folio', dataField: 'ticketId', width: 60 },
+                                { label: 'Fecha Llegada', dataField: 'incomingDate', cellsFormat: 'dd-MMM-yyyy', width: 100 },
+                                { label: 'Placa Cajas', dataField: 'plates', width: 90 },
+                                { label: 'Suma de Vol Real Cliente', dataField: 'sedenaVolume', cellsFormat: 'n0', align: 'right', width: 170 },
                             ]
                         };
                     }
