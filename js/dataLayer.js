@@ -1,7 +1,7 @@
 if (typeof BASE_API_URL === 'undefined' || typeof ajaxService === 'undefined') {
     // var BASE_API_URL = 'http://acarreosapi.local/api/';
     // var BASE_API_URL = 'https://localhost:7065/api/'; 
-    var BASE_API_URL = 'https://mobileapi20231229170346.azurewebsites.net/api/';
+    var BASE_API_URL = 'https://acarreosmobileapi.azurewebsites.net/api/';
 }
 
 function AuthProxy() {
@@ -242,7 +242,7 @@ function ReportsProxy() {
     }
 
     this.getSummaryPerCarrier = async function (successCallBack) {
-        let action = 'summary-by-carrier'
+        let action = 'detailed-summary-by-carrier'
 
         return await this.ajaxService.asyncCallGetService(this.service + action, "");
     }

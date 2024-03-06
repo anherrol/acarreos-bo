@@ -55,7 +55,8 @@
                         return {
                             appearance: {
                                 alternationStart: 0,
-                                alternationCount: 2
+                                alternationCount: 2, 
+                                allowRowToggleAnimation: true
                             },
                             selection: {
                                 enabled: false,
@@ -63,8 +64,16 @@
                                     enabled: false
                                 }
                             },
+                            pager: {
+                                visible: true
+                            },
+                            paging: {
+                                enabled: true,
+                                pageSize: 10,
+                                pageHierarchySize: 2
+                            },
                             filtering: {
-                                enabled: false
+                                enabled: true
                             },
                             sorting: {
                                 enabled: true
@@ -72,6 +81,7 @@
                             dataSource: new window.Smart.DataAdapter({
                                 dataSource: result,
                                 dataFields: [
+                                    { name: 'carrier', dataType: 'string' },
                                     { name: 'period', dataType: 'int' },
                                     { name: 'weekDescription', dataType: 'string' },
                                     { name: 'ticketId',dataType: 'string' },
@@ -81,11 +91,12 @@
                                 ]
                             }),
                             columns: [
-                                { label: 'Periodo', dataField: 'period', width: 60 },
+                                { label: 'Transportista', dataField: 'carrier', align:'center', width: 100 },
+                                { label: 'Periodo', dataField: 'period', align:'center', width: 70 },
                                 { label: 'Semana', dataField: 'weekDescription', width: 170 },
                                 { label: 'Folio', dataField: 'ticketId', width: 60 },
-                                { label: 'Fecha Llegada', dataField: 'incomingDate', cellsFormat: 'dd-MMM-yyyy', width: 100 },
-                                { label: 'Placa Cajas', dataField: 'plates', width: 90 },
+                                { label: 'Fecha Llegada', dataField: 'incomingDate', cellsFormat: 'dd-MMM-yyyy', width: 120 },
+                                { label: 'Placa Cajas', dataField: 'plates', width: 100 },
                                 { label: 'Suma de Vol Real Cliente', dataField: 'sedenaVolume', cellsFormat: 'n0', align: 'right', width: 170 },
                             ]
                         };
