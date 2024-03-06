@@ -34,11 +34,11 @@
         </header>
         <div class="clearfix"></div>
         <br />
+        <script type="module" src="js/smart.grid.js"></script>
         <div class="container">
             <h4>Resumen por Transportista</h4>
             <smart-grid id="grid"></smart-grid>
         </div>
-        <script type="module" src="js/smart.grid.js"></script>
         <script>
             // create a manager of local database
             let reportsProxy = new ReportsProxy();
@@ -73,7 +73,10 @@
                                 pageHierarchySize: 2
                             },
                             filtering: {
-                                enabled: true
+                                enabled: true,
+                                filterMenu: {
+                                    mode: 'excel'
+                                }
                             },
                             sorting: {
                                 enabled: true
@@ -87,8 +90,10 @@
                                     { name: 'ticketId',dataType: 'string' },
                                     { name: 'incomingDate', dataType: 'string' },
                                     { name: 'plates', dataType: 'string' },
-                                    { name: 'sedenaVolume',dataType: 'string' },
-                                ]
+                                    { name: 'sedenaVolume', dataType: 'string' },
+                                ], 
+                                childrenDataField: 'childRecords',
+                                // id: 'carrier',
                             }),
                             columns: [
                                 { label: 'Transportista', dataField: 'carrier', align:'center', width: 100 },
@@ -98,11 +103,13 @@
                                 { label: 'Fecha Llegada', dataField: 'incomingDate', cellsFormat: 'dd-MMM-yyyy', width: 120 },
                                 { label: 'Placa Cajas', dataField: 'plates', width: 100 },
                                 { label: 'Suma de Vol Real Cliente', dataField: 'sedenaVolume', cellsFormat: 'n0', align: 'right', width: 170 },
-                            ]
+                            ], 
                         };
                     }
                 });
-            })
+
+                console.log('grid: ', document.querySelector('grid'));
+            });
         </script>
     </body>
 </html>
