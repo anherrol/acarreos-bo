@@ -56,7 +56,8 @@
                             appearance: {
                                 alternationStart: 0,
                                 alternationCount: 2, 
-                                allowRowToggleAnimation: true
+                                allowRowToggleAnimation: true, 
+                                autoShowColumnFilterButton: false
                             },
                             selection: {
                                 enabled: false,
@@ -69,7 +70,7 @@
                             },
                             paging: {
                                 enabled: true,
-                                pageSize: 10,
+                                pageSize: 20,
                                 pageHierarchySize: 2
                             },
                             filtering: {
@@ -79,7 +80,8 @@
                                 }
                             },
                             sorting: {
-                                enabled: true
+                                enabled: true, 
+                                mode: 'one'
                             },
                             dataSource: new window.Smart.DataAdapter({
                                 dataSource: result,
@@ -90,7 +92,7 @@
                                     { name: 'ticketId',dataType: 'string' },
                                     { name: 'incomingDate', dataType: 'string' },
                                     { name: 'plates', dataType: 'string' },
-                                    { name: 'sedenaVolume', dataType: 'string' },
+                                    { name: 'sedenaVolume', dataType: 'float' },
                                 ], 
                                 childrenDataField: 'childRecords',
                                 // id: 'carrier',
@@ -102,7 +104,7 @@
                                 { label: 'Folio', dataField: 'ticketId', width: 60 },
                                 { label: 'Fecha Llegada', dataField: 'incomingDate', cellsFormat: 'dd-MMM-yyyy', width: 120 },
                                 { label: 'Placa Cajas', dataField: 'plates', width: 100 },
-                                { label: 'Suma de Vol Real Cliente', dataField: 'sedenaVolume', cellsFormat: 'n0', align: 'right', width: 170 },
+                                { label: 'Suma de Vol Real Cliente', dataField: 'sedenaVolume', cellsFormat: 'n2', align: 'right', width: 170 },
                             ], 
                         };
                     }
