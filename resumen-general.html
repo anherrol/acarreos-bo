@@ -10,7 +10,15 @@
         <link rel="stylesheet" type="text/css" href="css/styles.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap-utilities.min.css" />
-        <link rel="stylesheet" type="text/css" href="css/autoComplete.min.css">
+
+        <script type="text/javascript" src="js/smart.element.js"></script>
+        <script type="text/javascript" src="js/smart.elements.js"></script>
+        <script type="text/javascript" src="js/smart.chart.annotations.js"></script>
+        <script type="text/javascript" src="js/smart.chart.waterfall.js"></script>
+        <script type="text/javascript" src="js/smart.chart.api.js"></script>
+        <script type="text/javascript" src="js/smart.chart.rangeselector.js"></script>
+        <script type="text/javascript" src="js/smart.chart.core.js"></script>
+        <script type="text/javascript" src="js/smart.draw.js"></script>
 
         <script src="js/jquery-3.7.0.min.js"></script>
         <script src="js/jquery.rest.js"></script>
@@ -35,8 +43,16 @@
         <div class="clearfix"></div>
         <br />
         <div class="container">
-            <h4>Resumen General</h4>
-            <smart-grid id="grid" style="width: 400px;"></smart-grid>
+            <div class="row">
+                <div class="col">
+                    <h4>Resumen General</h4>
+                    <smart-grid id="grid" style="width: 350px;"></smart-grid>
+                </div>
+                <div class="col">
+                    <h4>Porcentajes</h4>
+                    <smart-chart id="chart" style="width: 350px; height: 400px;"></smart-grid>
+                </div>
+            </div>
         </div>
         <script type="module" src="js/smart.grid.js"></script>
         <script>
@@ -87,6 +103,53 @@
                     }
                 });
             })
-        </script>
+         
+            GetChartData = async() => {
+                var result = await reportsProxy.getCarriersPercentage();
+
+                return result;
+            }
+
+            GetChartData().then(result => {
+                window.Smart('#chart', class {
+                    get properties() {
+                        return {
+                            caption: 'Porcentajes por transportista',
+				            colorScheme: 'scheme01',
+                            description: 'Porcentaje de participación por transportista', 
+                            enableAnimations: true, 
+				            padding: { left: 10, top: 10, right: 15, bottom: 10 },
+                            showLegend: true,
+				            titlePadding: { left: 10, top: 0, right: 0, bottom: 10 },
+                            dataSource: result,
+                            valueAxis: {
+                                unitInterval: 10,
+                                minValue: 0,
+                                maxValue: 50000,
+                                title: { text: 'Acarreos recibidos' },
+                                labels: { horizontalAlignment: 'right' }
+                            },
+                            seriesGroups: [
+                                {
+                                    type: 'pie',
+                                    showLabels: true,
+                                    labelType: "percentage",
+                                    series: [
+                                        { 
+                                            dataField: 'volumen', 
+                                            displayText: 'transportista', 
+                                            initialAngle: 0,
+                                            radius: 120,
+                                            centerOffset: 0,
+                                            width: 4,
+                                        }
+                                    ]
+                                }
+                            ]
+                        };
+                    }
+                });
+            })
+         </script>
     </body>
 </html>

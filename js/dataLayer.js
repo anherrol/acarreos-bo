@@ -246,6 +246,18 @@ function ReportsProxy() {
 
         return await this.ajaxService.asyncCallGetService(this.service + action, "");
     }
+
+    this.getCarriersPercentage = async function (successCallBack) {
+        let action = 'haulages-by-percentage';
+
+        return await this.ajaxService.asyncCallGetService(this.service + action, "");
+    }
+
+    this.getPendingHaulages = async function (successCallBack) {
+        let action = 'pending-haulages';
+
+        return await this.ajaxService.asyncCallGetService(this.service + action, "");
+    }
 }
 
 function SyncData() {
